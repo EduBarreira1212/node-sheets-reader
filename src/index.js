@@ -1,4 +1,5 @@
 import {JWT} from "google-auth-library";
+import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
 
 dotenv.config({path: ".env"});
@@ -13,3 +14,9 @@ const jwt = new JWT({
     key: process.env.GOOGLE_PRIVATE_KEY,
     scopes: SCOPES,
 });
+
+const doc = new GoogleSpreadsheet('17xVeMmu0WQGz2el-c2VZWuuEKHGfgRR4acpJth3aPkg', jwt);
+
+await doc.loadInfo();
+
+const sheet = doc.sheetsByIndex[0];
