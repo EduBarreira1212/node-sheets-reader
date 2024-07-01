@@ -1,6 +1,7 @@
 import {JWT} from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
+import sheetObjects from "./sheetObjects.js";
 
 dotenv.config({path: ".env"});
 
@@ -20,3 +21,8 @@ const doc = new GoogleSpreadsheet('17xVeMmu0WQGz2el-c2VZWuuEKHGfgRR4acpJth3aPkg'
 await doc.loadInfo();
 
 const sheet = doc.sheetsByIndex[0];
+
+for (const user of sheetObjects) {
+    const userAdded = await sheet.addRow({Email: user.Email, Name: user.Name, Password: user.Password, Phone: user.Phone, CEP: user.CEP});
+    console.log(userAdded); 
+}
