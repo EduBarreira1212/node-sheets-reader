@@ -44,3 +44,18 @@ for (let i = 0; i < rows.length; i++) {
 
 console.table(users);
 
+for (const user of users) {
+    await fetch(`https://viacep.com.br/ws/${user.CEP}/json/`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('API response no suceded')
+            }
+            return response.json();
+            }
+        ).then(data => {
+            console.log(data.logradouro);
+        }).catch(error => {
+            console.log(user);
+            console.error("Error on requisition:", error);
+        })
+}
