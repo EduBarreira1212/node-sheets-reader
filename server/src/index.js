@@ -1,7 +1,6 @@
 import {JWT} from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
-import sheetObjects from "./sheetObjects.js";
 import express from 'express';
 
 dotenv.config({path: ".env"});
@@ -31,7 +30,7 @@ app.post("/api/update-sheet", async (req, res) => {
     
     const userAdded = await sheet.addRow({Email: userForm.Email, Name: userForm.Name, Password: userForm.Password, Phone: userForm.Phone, CEP: userForm.CEP});
     console.log(userAdded);
-    
+
     res.status(200).send(userAdded);
 });
 
