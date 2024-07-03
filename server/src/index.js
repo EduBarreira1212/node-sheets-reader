@@ -2,8 +2,12 @@ import {JWT} from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
 import sheetObjects from "./sheetObjects.js";
+import express from 'express';
 
 dotenv.config({path: ".env"});
+
+const app = express();
+app.use(express.json());
 
 const SCOPES = [
     'https://www.googleapis.com/auth/spreadsheets',
