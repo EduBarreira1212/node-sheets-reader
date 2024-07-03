@@ -26,10 +26,14 @@ await doc.loadInfo();
 
 const sheet = doc.sheetsByIndex[0];
 
-for (const user of sheetObjects) {
-    const userAdded = await sheet.addRow({Email: user.Email, Name: user.Name, Password: user.Password, Phone: user.Phone, CEP: user.CEP});
-    console.log(userAdded); 
-}
+app.post("/api/update-sheet", async (req, res) => {
+    const {userForm} = req.body;
+    
+    const userAdded = await sheet.addRow({Email: userForm.Email, Name: userForm.Name, Password: userForm.Password, Phone: userForm.Phone, CEP: userForm.CEP});
+    console.log(userAdded);
+    
+    res.status(200).send(userAdded);
+});
 
 const rows = await sheet.getRows();
 
