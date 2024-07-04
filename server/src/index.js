@@ -78,8 +78,8 @@ app.get("/api/update-db", async (req, res) => {
     }
 });
 
-app.get("/api/get-data/:name/:password", async (req, res) => {
-    const { name, password } = req.params;
+app.get("/api/get-data", async (req, res) => {
+    const { name, password } = req.query;
 
     const user = await User.findOne({where: {name: name, password: password}});
     if(!user){
