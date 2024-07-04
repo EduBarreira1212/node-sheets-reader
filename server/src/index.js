@@ -41,7 +41,19 @@ app.use((req, res, next) => {
         console.log(req.url);
     }
     next();
-})
+});
+
+const authenticateUser = async (req, res, next) => {
+    const { name, password } = req.query;
+    const user = await User.findOne({where: {name: name, password: password}});
+
+    if(user){
+        req.user = user;
+        next();
+    }else{
+        res.status(401).send("Invalid credentials");
+    }
+}
 
 app.post("/api/update-sheet", async (req, res) => {
     const {userForm} = req.body;
