@@ -27,6 +27,22 @@ await doc.loadInfo();
 
 const sheet = doc.sheetsByIndex[0];
 
+const rows = await sheet.getRows();
+
+app.use((req, res, next) => {
+    if(req.body){
+        console.log(req.method);
+        console.log(req.body);
+    }else if(req.params){
+        console.log(req.method);
+        console.log(req.params);
+    }else{
+        console.log(req.method);
+        console.log(req.url);
+    }
+    next();
+})
+
 app.post("/api/update-sheet", async (req, res) => {
     const {userForm} = req.body;
     
@@ -35,8 +51,6 @@ app.post("/api/update-sheet", async (req, res) => {
 
     res.status(200).send(userAdded);
 });
-
-const rows = await sheet.getRows();
 
 app.get("/api/update-db", async (req, res) => {
     try {
