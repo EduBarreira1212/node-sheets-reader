@@ -74,3 +74,7 @@ app.get("/api/get-data/:name/:password", async (req, res) => {
     console.log(user);
     res.status(200).send(user);
 });
+
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
