@@ -2,6 +2,8 @@ import {JWT} from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
 import express from 'express';
+import sequelize from "../config/database.js";
+import User from "../models/User.js";
 
 dotenv.config({path: ".env"});
 
@@ -36,20 +38,31 @@ app.post("/api/update-sheet", async (req, res) => {
 
 const rows = await sheet.getRows();
 
-const users = [];
+app.get("/api/update-db", async (req, res) => {
+    try {
+        await sequelize.authenticate();
+        console.log("Database conected");
 
-for (let i = 0; i < rows.length; i++) {
-    const user = {
-        Email: rows[i].get('Email'),
-        Name: rows[i].get('Name'),
-        Password: rows[i].get('Password'),
-        Phone: rows[i].get('Phone'),
-        CEP: rows[i].get('CEP'),
+        await User.sync();
+
+        for (let i = 0; i < rows.length; i++) {
+            const user = await User.create({
+                email: rows[i].get('Email'),
+                name: rows[i].get('Name'),
+                password: rows[i].get('Password'),
+                phone: rows[i].get('Phone'),
+                CEP: rows[i].get('CEP'),
+            });
+            console.log("New user:", user.toJSON());
+        }
+        res.status(200).send("Data inserted")
+    } catch (error) {
+        console.log("Error to conect/insert on database:", error);
+    } finally {
+        console.log("CLOSE");
+        sequelize.close();
     }
-    users.push(user);
-}
-
-console.table(users);
+});
 
 for (const user of users) {
     await fetch(`https://viacep.com.br/ws/${user.CEP}/json/`)
