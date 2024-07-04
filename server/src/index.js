@@ -64,18 +64,13 @@ app.get("/api/update-db", async (req, res) => {
     }
 });
 
-for (const user of users) {
-    await fetch(`https://viacep.com.br/ws/${user.CEP}/json/`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('API response no suceded')
-            }
-            return response.json();
-            }
-        ).then(data => {
-            console.log(data.logradouro);
-        }).catch(error => {
-            console.log(user);
-            console.error("Error on requisition:", error);
-        })
-}
+app.get("/api/get-data/:name/:password", async (req, res) => {
+    const { name, password } = req.params;
+
+    const user = await User.findOne({where: {name: name, password: password}});
+    if(!user){
+        res.status(404).send("User not found");
+    }
+    console.log(user);
+    res.status(200).send(user);
+});
