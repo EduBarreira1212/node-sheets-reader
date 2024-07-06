@@ -56,7 +56,7 @@ const authenticateUser = async (req, res, next) => {
 }
 
 app.post("/api/update-sheet", async (req, res) => {
-    const {userForm} = req.body;
+    const {userForm} = JSON.parse(req.body);
     
     const userAdded = await sheet.addRow({Email: userForm.Email, Name: userForm.Name, Password: userForm.Password, Phone: userForm.Phone, CEP: userForm.CEP});
     console.log(userAdded);
