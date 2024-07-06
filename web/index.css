@@ -16,7 +16,7 @@ header {
 
 main {
     padding: 2vh;
-    max-width: 60vw;
+    max-width: 45vw;
     margin: 2rem auto;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -42,5 +42,39 @@ main {
 }
 
 #choose-section button:hover {
+    background-color: #45a049;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 0.5vh;
+    font-weight: bold;
+}
+
+input[type="email"],
+input[type="text"],
+input[type="password"],
+input[type="tel"],
+input[type="submit"] {
+    margin-bottom: 1.2vh;
+    padding: 1vh;
+    font-size: 1vw;
+    border: 1px solid #ccc;
+    border-radius: 0.5vw;
+}
+
+input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover {
     background-color: #45a049;
 }
