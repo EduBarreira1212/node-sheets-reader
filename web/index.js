@@ -14,11 +14,33 @@ searchBtn.addEventListener("click", () => {
 });
 
 registerForm.addEventListener("submit", (event) => {
-    fetch("http://localHost:3000/api/update-sheet", {
+    event.preventDefault();
+
+    const formElements = event.target.elements;
+    const userForm = {
+        Email: formElements["email"].value,
+        Name: formElements["name"].value,
+        Password: formElements["password"].value,
+        Phone: formElements["phone"].value,
+        CEP: formElements["CEP"].value,
+    }
+
+    fetch("http://localhost:3000/api/update-sheet", {
         method: "POST",
         headers: {
-            "content-type": "application/json"
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify(event.target.value),
+        body: JSON.stringify(userForm),
     })
+    .then(response => {
+        if(!response.ok){
+            throw new Error("Error on response")
+        }
+        console.log(response);
+        return response.json()
+    })
+    .then(data => console.log(data))
+    .catch(error => {
+        console.log("Error on requisition:", error);
+    });
 });
