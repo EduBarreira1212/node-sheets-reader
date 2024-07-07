@@ -3,7 +3,7 @@ import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
 import cors from "cors";
 import express from 'express';
-import sequelize from "../config/database.js";
+import { Sequelize } from "sequelize";
 import User from "../models/User.js";
 
 dotenv.config({path: ".env"});
@@ -29,8 +29,6 @@ const doc = new GoogleSpreadsheet('17xVeMmu0WQGz2el-c2VZWuuEKHGfgRR4acpJth3aPkg'
 await doc.loadInfo();
 
 const sheet = doc.sheetsByIndex[0];
-
-const rows = await sheet.getRows();
 
 app.use((req, res, next) => {
     if(req.body){
@@ -67,41 +65,49 @@ app.post("/api/update-sheet", async (req, res) => {
     }
 });
 
-app.get("/api/update-db", async (req, res) => {
+app.get("/api/get-data", async (req, res) => {
+    const { name, password } = req.query;
+
+    const sequelize = new Sequelize(`postgresql://postgres:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:24923/railway`);
+
     try {
         await sequelize.authenticate();
         console.log("Database conected");
 
+        const rows = await sheet.getRows();
+
         await User.sync();
 
+        console.log("ROWS:", rows.length);
+
         for (let i = 0; i < rows.length; i++) {
-            const user = await User.create({
+            const user = {
                 email: rows[i].get('Email'),
                 name: rows[i].get('Name'),
                 password: rows[i].get('Password'),
                 phone: rows[i].get('Phone'),
                 CEP: rows[i].get('CEP'),
-            });
-            console.log("New user:", user.toJSON());
+            };
+            const userCreated = await User.findByPk(rows[i].get('Email'));
+            if(!userCreated){
+                const newUser = await User.create(user);
+                console.log("New user:", newUser.toJSON());
+            }
         }
-        res.status(200).send("Data inserted")
+
+        const user = await User.findOne({where: {name: name, password: password}});
+        if(!user){
+            res.status(404).send("User not found");
+        }
+        console.log(user.toJSON());
+
+        res.status(200).send(user);
     } catch (error) {
         console.log("Error to conect/insert on database:", error);
     } finally {
-        console.log("CLOSE");
+        console.log("Close");
         sequelize.close();
     }
-});
-
-app.get("/api/get-data", async (req, res) => {
-    const { name, password } = req.query;
-
-    const user = await User.findOne({where: {name: name, password: password}});
-    if(!user){
-        res.status(404).send("User not found");
-    }
-    console.log(user);
-    res.status(200).send(user);
 });
 
 app.listen(3000, () => {
