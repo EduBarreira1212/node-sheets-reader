@@ -1,6 +1,7 @@
 import {JWT} from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
+import cors from "cors";
 import express from 'express';
 import sequelize from "../config/database.js";
 import User from "../models/User.js";
@@ -8,7 +9,9 @@ import User from "../models/User.js";
 dotenv.config({path: ".env"});
 
 const app = express();
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cors());
 
 const SCOPES = [
     'https://www.googleapis.com/auth/spreadsheets',
@@ -56,12 +59,12 @@ const authenticateUser = async (req, res, next) => {
 }
 
 app.post("/api/update-sheet", async (req, res) => {
-    const {userForm} = JSON.parse(req.body);
+    const userForm = req.body;
     
     const userAdded = await sheet.addRow({Email: userForm.Email, Name: userForm.Name, Password: userForm.Password, Phone: userForm.Phone, CEP: userForm.CEP});
-    console.log(userAdded);
-
-    res.status(200).send(userAdded);
+    if(userAdded){
+        res.status(200).json(userForm);
+    }
 });
 
 app.get("/api/update-db", async (req, res) => {
