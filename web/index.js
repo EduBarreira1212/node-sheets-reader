@@ -36,7 +36,6 @@ registerForm.addEventListener("submit", (event) => {
         if(!response.ok){
             throw new Error("Error on response")
         }
-        console.log(response);
         return response.json()
     })
     .then(data => console.log(data))
