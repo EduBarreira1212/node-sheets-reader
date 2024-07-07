@@ -43,3 +43,21 @@ registerForm.addEventListener("submit", (event) => {
         console.log("Error on requisition:", error);
     });
 });
+
+searchForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const formElements = event.target.elements;
+
+    fetch(`http://localhost:3000/api/get-data?name=${formElements["name"].value}&password=${formElements["password"].value}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error on response")
+            }
+            return response.json()
+        })
+        .then(data => console.log(data))
+        .catch(error => {
+            console.log("Error on requisition:", error);
+        });
+});
