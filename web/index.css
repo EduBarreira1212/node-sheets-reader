@@ -81,3 +81,32 @@ input[type="submit"]:hover {
 .hidden {
     display: none;
 }
+
+@media (max-width: 600px) {
+    header {
+        font-size: 4vw;
+    }
+
+    #choose-section button {
+        width: 30vw;
+        height: 5vh;
+        border-radius: 3vw;
+        padding: 1.5vh 2vw;
+        font-size: 2.5vw;
+    }
+
+    input[type="email"],
+    input[type="text"],
+    input[type="password"],
+    input[type="tel"],
+    input[type="submit"] {
+        margin-bottom: 1.2vh;
+        padding: 1vh;
+        font-size: 3vw;
+        border-radius: 1vw;
+    }
+
+    input[type="submit"] {
+        font-size: 2.5vw;
+    }
+  }
