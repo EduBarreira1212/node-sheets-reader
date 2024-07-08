@@ -4,6 +4,7 @@ const registerSec = document.getElementById("register-section");
 const searchSec = document.getElementById("search-section");
 const registerForm = document.getElementById("register-form");
 const searchForm = document.getElementById("search-form");
+const userSec = document.getElementById("user-data-section");
 
 registerBtn.addEventListener("click", () => {
     registerSec.classList.toggle("hidden");
@@ -56,7 +57,14 @@ searchForm.addEventListener("submit", async (event) => {
             }
             return response.json()
         })
-        .then(data => console.log(data))
+        .then(data => {
+            console.log(data)
+            userSec.style.display = "flex";
+            const secElements = userSec.getElementsByClassName("user-info");
+            for (const key in data) { 
+                secElements[key].textContent = data[key];
+            }
+        })
         .catch(error => {
             console.log("Error on requisition:", error);
         });
