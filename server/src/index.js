@@ -52,7 +52,7 @@ const authenticateUser = async (req, res, next) => {
         req.user = user;
         next();
     }else{
-        res.status(401).send("Invalid credentials");
+        res.status(401).send("Invalid user");
     }
 }
 
@@ -65,8 +65,8 @@ app.post("/api/update-sheet", async (req, res) => {
     }
 });
 
-app.get("/api/get-data", async (req, res) => {
-    const { name, password } = req.query;
+app.get("/api/get-data", authenticateUser, async (req, res) => {
+    const user = req.user;
 
     const sequelize = new Sequelize(`postgresql://postgres:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:24923/railway`);
 
@@ -93,10 +93,6 @@ app.get("/api/get-data", async (req, res) => {
             }
         }
 
-        const user = await User.findOne({where: {name: name, password: password}});
-        if(!user){
-            return res.status(404).json({found: false, message: "User not found"});
-        }
         console.log(user.toJSON());
 
         res.status(200).send(user);
