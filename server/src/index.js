@@ -78,8 +78,6 @@ app.get("/api/get-data", async (req, res) => {
 
         await User.sync();
 
-        console.log("ROWS:", rows.length);
-
         for (let i = 0; i < rows.length; i++) {
             const user = {
                 email: rows[i].get('Email'),
