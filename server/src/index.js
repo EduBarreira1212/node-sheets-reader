@@ -97,7 +97,7 @@ app.get("/api/get-data", async (req, res) => {
 
         const user = await User.findOne({where: {name: name, password: password}});
         if(!user){
-            res.status(404).send("User not found");
+            return res.status(404).json({found: false, message: "User not found"});
         }
         console.log(user.toJSON());
 
