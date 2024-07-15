@@ -3,8 +3,10 @@ import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
 import cors from "cors";
 import express from 'express';
-import { Sequelize } from "sequelize";
-import User from "../models/User.js";
+import updateSheet from "./controllers/sheetController.js";
+import getData from "./controllers/sheetController.js";
+import loggerMiddleware from "./middlewares/loggerMiddleware.js";
+import authMiddleware from "./middlewares/authMiddleware.js";
 
 dotenv.config({path: ".env"});
 
@@ -30,79 +32,11 @@ await doc.loadInfo();
 
 const sheet = doc.sheetsByIndex[0];
 
-app.use((req, res, next) => {
-    if(req.body){
-        console.log(req.method);
-        console.log(req.body);
-    }else if(req.params){
-        console.log(req.method);
-        console.log(req.params);
-    }else{
-        console.log(req.method);
-        console.log(req.url);
-    }
-    next();
-});
+app.use(loggerMiddleware);
 
-const authenticateUser = async (req, res, next) => {
-    const { name, password } = req.query;
-    const user = await User.findOne({where: {name: name, password: password}});
+app.post("/api/update-sheet", updateSheet);
 
-    if(user){
-        req.user = user;
-        next();
-    }else{
-        res.status(401).send("Invalid user");
-    }
-}
-
-app.post("/api/update-sheet", async (req, res) => {
-    const userForm = req.body;
-    
-    const userAdded = await sheet.addRow({Email: userForm.Email, Name: userForm.Name, Password: userForm.Password, Phone: userForm.Phone, CEP: userForm.CEP});
-    if(userAdded){
-        res.status(200).json(userForm);
-    }
-});
-
-app.get("/api/get-data", authenticateUser, async (req, res) => {
-    const user = req.user;
-
-    const sequelize = new Sequelize(`postgresql://postgres:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:24923/railway`);
-
-    try {
-        await sequelize.authenticate();
-        console.log("Database conected");
-
-        const rows = await sheet.getRows();
-
-        await User.sync();
-
-        for (let i = 0; i < rows.length; i++) {
-            const user = {
-                email: rows[i].get('Email'),
-                name: rows[i].get('Name'),
-                password: rows[i].get('Password'),
-                phone: rows[i].get('Phone'),
-                CEP: rows[i].get('CEP'),
-            };
-            const userCreated = await User.findByPk(rows[i].get('Email'));
-            if(!userCreated){
-                const newUser = await User.create(user);
-                console.log("New user:", newUser.toJSON());
-            }
-        }
-
-        console.log(user.toJSON());
-
-        res.status(200).send(user);
-    } catch (error) {
-        console.log("Error to conect/insert on database:", error);
-    } finally {
-        console.log("Close");
-        sequelize.close();
-    }
-});
+app.get("/api/get-data", authMiddleware, getData);
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
