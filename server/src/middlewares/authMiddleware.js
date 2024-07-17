@@ -1,4 +1,4 @@
-import User from "../models/User";
+import User from "../models/User.js";
 
 const authMiddleware = async (req, res, next) => {
     const { name, password } = req.query;
