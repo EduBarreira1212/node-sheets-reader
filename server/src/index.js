@@ -3,8 +3,8 @@ import { GoogleSpreadsheet } from "google-spreadsheet"
 import dotenv from "dotenv";
 import cors from "cors";
 import express from 'express';
-import updateSheet from "./controllers/sheetController.js";
-import getData from "./controllers/sheetController.js";
+import { updateSheet } from "./controllers/sheetController.js";
+import { getData } from "./controllers/sheetController.js";
 import loggerMiddleware from "./middlewares/loggerMiddleware.js";
 import authMiddleware from "./middlewares/authMiddleware.js";
 
@@ -30,7 +30,7 @@ const doc = new GoogleSpreadsheet('17xVeMmu0WQGz2el-c2VZWuuEKHGfgRR4acpJth3aPkg'
 
 await doc.loadInfo();
 
-const sheet = doc.sheetsByIndex[0];
+export const sheet = doc.sheetsByIndex[0];
 
 app.use(loggerMiddleware);
 
