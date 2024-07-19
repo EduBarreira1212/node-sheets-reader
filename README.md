@@ -2,7 +2,7 @@
 
 This project is a spreadsheet reader App built using JavaScrit. To use you need to register a user, this user will be send to a spreadsheet then the app will read this spreadsheet and save in a postgreSQL database, to get a user's info, you can search using the email and password, it will be displayed below the form.
 
-Link to see the project: 
+Link to see the project: https://spreadsheets-reader-eb1212.vercel.app/
 
 Link to see the spreadsheet: https://docs.google.com/spreadsheets/d/17xVeMmu0WQGz2el-c2VZWuuEKHGfgRR4acpJth3aPkg/edit?usp=sharing
 
