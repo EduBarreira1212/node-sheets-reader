@@ -6,6 +6,8 @@ const registerForm = document.getElementById("register-form");
 const searchForm = document.getElementById("search-form");
 const userSec = document.getElementById("user-data-section");
 
+const baseURL = "https://node-sheets-reader.onrender.com";
+
 registerBtn.addEventListener("click", () => {
     registerSec.classList.toggle("hidden");
 });
@@ -26,7 +28,7 @@ registerForm.addEventListener("submit", (event) => {
         CEP: formElements["CEP"].value,
     }
 
-    fetch("http://localhost:3000/api/update-sheet", {
+    fetch(`${baseURL}/api/update-sheet`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -50,7 +52,7 @@ searchForm.addEventListener("submit", async (event) => {
 
     const formElements = event.target.elements;
 
-    fetch(`http://localhost:3000/api/get-data?name=${formElements["name"].value}&password=${formElements["password"].value}`)
+    fetch(`${baseURL}/api/get-data?name=${formElements["name"].value}&password=${formElements["password"].value}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Error on response")
