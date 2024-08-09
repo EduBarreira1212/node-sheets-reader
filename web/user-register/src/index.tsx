@@ -3,13 +3,27 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import UserRegister from './pages/UserRegister';
+import SearchUser from './pages/SearchUser';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <UserRegister/>
+  },
+  {
+    path: "/search-user",
+    element: <SearchUser/>
+  }
+]);
+
 root.render(
   <React.StrictMode>
-    <UserRegister />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
