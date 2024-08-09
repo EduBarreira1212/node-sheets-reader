@@ -18,7 +18,7 @@ function UserRegister() {
   const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (
-    <div className="flex flex-col justify-center items-center max-h-screen gap-12 bg-gray-100">
+    <div className="flex flex-col justify-center items-center h-screen max-h-screen gap-12 bg-gray-100">
       <h1 className="text-4xl font-bold text-blue-600">User Register</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-80 space-y-4">
         <label htmlFor="name" className="text-lg font-medium">Name</label>
