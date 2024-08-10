@@ -1,8 +1,8 @@
 import User from "../models/User.js";
 
 const authMiddleware = async (req, res, next) => {
-    const { name, password } = req.query;
-    const user = await User.findOne({where: {name: name, password: password}});
+    const { email, password } = req.query;
+    const user = await User.findOne({where: {email: email, password: password}});
 
     if(user){
         req.user = user;
