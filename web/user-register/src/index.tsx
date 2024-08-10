@@ -13,11 +13,11 @@ const root = ReactDOM.createRoot(
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <UserRegister/>
+    element: <SearchUser/>
   },
   {
-    path: "/search-user",
-    element: <SearchUser/>
+    path: "/user-register",
+    element: <UserRegister/>
   }
 ]);
 

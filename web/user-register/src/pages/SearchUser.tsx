@@ -62,7 +62,7 @@ const SearchUser = () => {
                     <p>Phone: {user.phone}</p>
                     <p>CEP: {user.CEP}</p>
                 </section>}
-            <button onClick={() => navigate("/")} className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-300">Register New User</button>
+            <button onClick={() => navigate("/user-register")} className="bg-green-500 text-white font-semibold py-2 px-6 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400 transition duration-300">Register New User</button>
         </div>
     )
 }

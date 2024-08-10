@@ -3,6 +3,7 @@ import Label from "../components/Label";
 import Submit from "../components/Submit";
 import ErrorMessage from "../components/ErrorMessage";
 import createUser from "../services/createUser";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
   email: string
@@ -14,6 +15,8 @@ type Inputs = {
 
 function UserRegister() {
 
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -21,6 +24,7 @@ function UserRegister() {
   } = useForm<Inputs>()
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     await createUser(data);
+    navigate("/");
   } 
 
   return (
