@@ -3,7 +3,7 @@ import User from "../models/User.js";
 import { sheet } from "../index.js";
 
 export const updateSheets = async (userForm) => {
-    const userAdded = await sheet.addRow({Email: userForm.Email, Name: userForm.Name, Password: userForm.Password, Phone: userForm.Phone, CEP: userForm.CEP});
+    const userAdded = await sheet.addRow({Email: userForm.email, Name: userForm.name, Password: userForm.password, Phone: userForm.phone, CEP: userForm.CEP});
     return userAdded;
 }
 
