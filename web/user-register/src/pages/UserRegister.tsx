@@ -2,6 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Label from "../components/Label";
 import Submit from "../components/Submit";
 import ErrorMessage from "../components/ErrorMessage";
+import createUser from "../services/createUser";
 
 type Inputs = {
   email: string
@@ -18,7 +19,9 @@ function UserRegister() {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    await createUser(data);
+  } 
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen gap-12 bg-gray-100">
