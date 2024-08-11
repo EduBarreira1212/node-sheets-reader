@@ -16,14 +16,14 @@ Link to see the spreadsheet: https://docs.google.com/spreadsheets/d/17xVeMmu0WQG
 
 ## Stack
 
-**Front-end:** JavaScript  
+**Front-end:** React with TypeScript  
 **Back-end:** Node.js  
-**Packages:** express, cors, dotenv, google-auth-library, google-spreadsheet, sequelize, pg
+**Packages:** axios, express, cors, dotenv, google-auth-library, google-spreadsheet, sequelize, pg, tailwindcss, react-hook-form
 
 
 ## Learnings
 
-In this project i learned how to use Sequelize and how to read and write in a spreadsheet.
+In this project i learned how to use Sequelize, how to read and write in a spreadsheet, to add style with Tailwind CSS and use react hook form
 
 ## Getting Started
 
@@ -46,13 +46,17 @@ To create `DB_PASSWORD` and `DB_HOST`: https://railway.app/
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/EduBarreira1212/notepad.git
-    cd notepad
+    git clone https://github.com/EduBarreira1212/spreadsheet-reader.git
+    cd spread-sheet
     ```
 
 2. Install the dependencies:
 
     ```bash
+    cd server
+    npm install
+    cd web
+    cd user-register
     npm install
     ```
 3. Inicie o servidor
@@ -63,7 +67,7 @@ To create `DB_PASSWORD` and `DB_HOST`: https://railway.app/
     ```
 ## Available Scripts
 
-In the project directory, you can run:
+In the user-register directory, you can run:
 
 ### `npm start`
 
