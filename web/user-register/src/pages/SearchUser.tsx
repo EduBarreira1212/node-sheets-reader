@@ -58,7 +58,6 @@ const SearchUser = () => {
                 <section className="flex flex-col gap-3 border p-5 border-gray-300 rounded-lg">
                     <p>Name: {user.name}</p>
                     <p>E-mail: {user.email}</p>
-                    <p>Password: {user.password}</p>
                     <p>Phone: {user.phone}</p>
                     <p>CEP: {user.CEP}</p>
                 </section>}
