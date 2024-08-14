@@ -7,7 +7,7 @@ const authMiddleware = async (req, res, next) => {
     const user = await User.findOne({where: {email: email}});
 
     if(!user){
-        res.status(401).json({error: "Invalid user"});
+        return res.status(401).json({error: "Invalid user"});
     }
 
     const uncriptedPassword = bcrypt.compareSync(password, user.password);
