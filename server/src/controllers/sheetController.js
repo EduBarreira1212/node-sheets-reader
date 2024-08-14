@@ -27,7 +27,12 @@ export const getData = async (req, res) => {
 
         console.log(user.toJSON());
 
-        res.status(200).send(user);
+        res.status(200).json({
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            CEP: user.CEP
+        });
     } catch (error) {
         console.log("Error to conect/insert on database:", error);
     } finally {
