@@ -1,9 +1,11 @@
 import { createNewUser } from "../repositories/sheetRepositorie.js";
 import User from "../models/User.js";
 import { sheet } from "../index.js";
+import bcrypt from "bcrypt";
 
 export const updateSheets = async (userForm) => {
-    const userAdded = await sheet.addRow({Email: userForm.email, Name: userForm.name, Password: userForm.password, Phone: userForm.phone, CEP: userForm.CEP});
+    const encryptedPassword = bcrypt.hashSync(userForm.password, 10);
+    const userAdded = await sheet.addRow({Email: userForm.email, Name: userForm.name, Password: encryptedPassword, Phone: userForm.phone, CEP: userForm.CEP});
     return userAdded;
 }
 
