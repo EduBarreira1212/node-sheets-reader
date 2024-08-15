@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 import { getSheets } from "../services/sheetServices.js";
 import { updateSheets } from "../services/sheetServices.js";
 import { Sequelize } from "sequelize";
@@ -31,7 +33,10 @@ export const getData = async (req, res) => {
             name: user.name,
             email: user.email,
             phone: user.phone,
-            CEP: user.CEP
+            CEP: user.CEP,
+            token: jwt.sign({payload: user.email}, "99c37ee59bd88f4e2e47a7595a4127c5", {
+                expiresIn: "5d"
+            })
         });
     } catch (error) {
         console.log("Error to conect/insert on database:", error);
