@@ -29,7 +29,7 @@ export const getData = async (req, res) => {
 
         console.log(user.toJSON());
 
-        res.status(200).json({
+        res.status(201).json({
             name: user.name,
             email: user.email,
             phone: user.phone,
