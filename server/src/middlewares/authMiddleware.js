@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import bcrypt from "bcrypt";
 
 const authMiddleware = async (req, res, next) => {
-    const { email, password } = req.query;
+    const { email, password } = req.body;
     
     const user = await User.findOne({where: {email: email}});
 
@@ -10,7 +10,7 @@ const authMiddleware = async (req, res, next) => {
         return res.status(401).json({error: "Invalid user"});
     }
 
-    const uncriptedPassword = bcrypt.compareSync(password, user.password);
+    const isSamePAssword = bcrypt.compareSync(password, user.password);
 
     if(uncriptedPassword){
         req.user = user;

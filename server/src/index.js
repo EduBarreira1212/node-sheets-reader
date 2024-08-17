@@ -36,7 +36,7 @@ app.use(loggerMiddleware);
 
 app.post("/api/update-sheet", updateSheet);
 
-app.get("/api/get-data", authMiddleware, getData);
+app.post("/api/get-data", authMiddleware, getData);
 
 app.listen(3000, () => {
     console.log("Server running on port 3000");
