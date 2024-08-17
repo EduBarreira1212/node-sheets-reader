@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
 
     const isSamePAssword = bcrypt.compareSync(password, user.password);
 
-    if(uncriptedPassword){
+    if(isSamePAssword){
         req.user = user;
         next();
     }else{
