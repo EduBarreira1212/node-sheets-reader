@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import ErrorMessage from '../components/ErrorMessage';
 import Label from '../components/Label';
 import getUser from '../services/getUser';
+import { toast } from 'react-toastify';
 
 interface Inputs {
     email: string
@@ -30,12 +31,23 @@ const SearchUser = () => {
     } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const user = await getUser(data);
-        setUser(user);
+        try {
+            const user = await toast.promise(
+                getUser(data),
+                {
+                    pending: 'Loading...',
+                    success: 'Welcome 👌',
+                    error: 'Invalid user 🤯'
+                }
+            );
+            setUser(user);
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
-        <div className="flex flex-col min-h-screen justify-center items-center gap-12 bg-gray-100">
+        <div className="flex flex-col w-screen min-h-screen justify-center items-center gap-12 bg-gray-100">
             <h1 className="text-4xl font-bold text-blue-600">Search User</h1>
             <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-80 space-y-4">
                 <Label>E-mail</Label>
