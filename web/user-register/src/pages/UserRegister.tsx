@@ -30,10 +30,14 @@ function UserRegister() {
         createUser(data),
         {
           pending: 'Loading...',
-          success: 'User created 👌',
+          success: {
+            render() {
+                return 'User created 👌'
+            },
+            onClose: () => navigate("/")
+        },
           error: 'User already exists 🤯'
         });
-      navigate("/");
     } catch (error) {
       console.log(error);
     }
